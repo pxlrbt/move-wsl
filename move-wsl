@@ -1,0 +1,36 @@
+#!/bin/bash
+
+if [ $# -lt 2 ]; then
+    printf "Usage: move-wsl [WSL_NAME] [TARGET_DIR]"
+    exit
+fi
+
+WSL_NAME=$1
+WSL_TARGET=$2
+TEMP_FILE="$WSL_TARGET/$WSL_NAME.tar"
+
+read -p "Move WSL '$WSL_NAME' to $WSL_TARGET? (Y|n) " -n 1 PROMPT
+echo
+
+if [ "$PROMPT" != 'Y' ]; then
+    exit 1;
+fi
+
+if [ ! -d "$WSL_TARGET" ]; then
+    echo "Creating target dir \"$WSL_TARGET\" ..."
+    mkdir -p $WSL_TARGET
+fi
+
+echo "Exporting VHDX to \"$TEMP_FILE\" ..."
+wsl --export $WSL_NAME $TEMP_FILE
+
+echo "Unregistering WSL ..."
+wsl --unregister $WSL_NAME &>/dev/null
+
+echo "Importing \"$WSL_NAME\" at \"$WSL_TARGET\" ..."
+wsl --import $WSL_NAME $WSL_TARGET $TEMP_FILE
+
+echo "Cleaning up ..."
+rm $TEMP_FILE
+
+echo "Done!"
