@@ -5,10 +5,12 @@ if [ $# -lt 2 ]; then
     exit
 fi
 
+# Setup vars
 WSL_NAME=$1
 WSL_TARGET=$2
 TEMP_FILE="$WSL_TARGET/$WSL_NAME.tar"
 
+# Safety check
 read -p "Move WSL '$WSL_NAME' to $WSL_TARGET? (Y|n) " -n 1 PROMPT
 echo
 
@@ -16,11 +18,13 @@ if [ "$PROMPT" != 'Y' ]; then
     exit 1;
 fi
 
+# Create target dir if non existent
 if [ ! -d "$WSL_TARGET" ]; then
     echo "Creating target dir \"$WSL_TARGET\" ..."
     mkdir -p $WSL_TARGET
 fi
 
+# Export WSL image to tar file
 echo "Exporting VHDX to \"$TEMP_FILE\" ..."
 wsl --export $WSL_NAME $TEMP_FILE
 
@@ -29,12 +33,15 @@ if [ ! -f $TEMP_FILE ]; then
     exit 2
 fi
 
+# Unregister WSL so we can register it again at new location
 echo "Unregistering WSL ..."
 wsl --unregister $WSL_NAME &>/dev/null
 
+# Importing WSL at new location
 echo "Importing \"$WSL_NAME\" at \"$WSL_TARGET\" ..."
 wsl --import $WSL_NAME $WSL_TARGET $TEMP_FILE
 
+# Validate everything went well
 if [ -z $(wsl --list | iconv -f UTF-16LE -t UTF-8 | grep -E "(^|\s)$WSL_NAME($|\s)") ]; then
     echo "ERROR: Import failed. Distro not found. Export file at $TEMP_FILE"
     exit 3
@@ -45,6 +52,7 @@ if [ ! -f "$WSL_TARGET/ext4.vhdx" ]; then
     exit 4
 fi
 
+# Remove temporary file
 echo "Cleaning up ..."
 rm $TEMP_FILE
 
