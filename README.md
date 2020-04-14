@@ -10,7 +10,7 @@ __Use at your own risk!__ I tested this on my machine and it worked fine. But be
 ## Usage
 
 ### Bash script
-This is the recommended version. Use with git bash for Windows or similiar.
+_This is the recommended version_. Use with git bash for Windows or similiar.
 
 #### Interactive way
 1) `./move-wsl`
@@ -24,7 +24,7 @@ This is the recommended version. Use with git bash for Windows or similiar.
 __Example:__ `./move-wsl docker-desktop /d/docker`
 
 ### Batch script
-This is a lightweight version which can also be used from Windows CMD.
+_This is a lightweight version_ which can also be used from Windows CMD.
 
 1) Get a list of WSL distros: `wsl -l`
 2) Move your image: `move-wsl.bat [NAME] [LOCATION]`
