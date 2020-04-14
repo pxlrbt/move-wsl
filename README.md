@@ -10,6 +10,12 @@ __Use at your own risk!__ I tested this on my machine and it worked fine. But be
 ### Bash script
 Use with git bash for Windows or similiar
 
+#### Interactive way
+1) `./move-wsl`
+2) Select your distro
+3) Enter your target
+
+#### Explicit way
 1) Get a list of WSL distros: `wsl -l`
 2) Move your image: `./move-wsl [NAME] [LOCATION]`
 
