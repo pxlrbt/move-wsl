@@ -1,22 +1,37 @@
 #!/bin/bash
 
-if [ $# -lt 2 ]; then
-    printf "Usage: move-wsl [WSL_NAME] [TARGET_DIR]"
-    exit
+# Allow old and new way
+if [ $# -eq 2 ]; then
+    WSL_NAME=$1
+    WSL_TARGET=$2
+else
+    # Select distro
+    WSL_DISTROS=($(wsl -l | iconv -f UTF-16LE -t UTF-8 | tail -n +2 | sed "s/[[:space:]]//g" | sed "s/(Standard)//g" | tr "\r\n" " "))
+    PS3="Select distro to move: "
+    select WSL_NAME in ${WSL_DISTROS[@]}; do
+        if [ 1 -le "$REPLY" ] && [ "$REPLY" -le ${#WSL_DISTROS[@]} ];
+        then
+            break;
+        else
+            echo "Wrong selection: Select any number from 1-${#WSL_DISTROS[@]}"
+        fi
+    done
+
+    read -p "Enter WSL target directory: " WSL_TARGET
 fi
 
-# Setup vars
-WSL_NAME=$1
-WSL_TARGET=$2
-TEMP_FILE="$WSL_TARGET/$WSL_NAME.tar"
+
 
 # Safety check
+echo
 read -p "Move WSL '$WSL_NAME' to $WSL_TARGET? (Y|n) " -n 1 PROMPT
 echo
 
 if [ "$PROMPT" != 'Y' ]; then
     exit 1;
 fi
+
+TEMP_FILE="$WSL_TARGET/$WSL_NAME.tar"
 
 # Create target dir if non existent
 if [ ! -d "$WSL_TARGET" ]; then
