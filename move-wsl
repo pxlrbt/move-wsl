@@ -6,7 +6,7 @@ if [ $# -eq 2 ]; then
     WSL_TARGET=$2
 else
     # Select distro
-    WSL_DISTROS=($(wsl -l | iconv -f UTF-16LE -t UTF-8 | tail -n +2 | sed "s/[[:space:]]//g" | sed "s/(Standard)//g" | tr "\r\n" " "))
+    WSL_DISTROS=($(wsl -l | iconv -f UTF-16LE -t UTF-8 | tail -n +2 | sed "s/\r\n/\n/g" | sed "s/(Standard)//g"))
     PS3="Select distro to move: "
     select WSL_NAME in ${WSL_DISTROS[@]}; do
         if [ 1 -le "$REPLY" ] && [ "$REPLY" -le ${#WSL_DISTROS[@]} ];
