@@ -30,3 +30,24 @@ _This is a lightweight version_ which can also be used from Windows CMD.
 2) Move your image: `move-wsl.bat [NAME] [LOCATION]`
 
 __Example:__ `move-wsl.bat docker-desktop D:\docker`
+
+## FAQ
+
+### Default user was switched to root when moving a distro
+
+Set your default user inside your distro by adding this to your `/etc/wsl.conf`
+
+```ini
+[user]
+default=YOUR_USERNAME
+```
+
+Then exit your distro, terminate it (`wsl -t YOUR_DISTRO`) and start it again.
+
+### Standard distro switched when moving it distro
+
+Since we need to unregister to import it with the same name, the standard distro can be switched. Just set your standard distro again:
+
+```sh
+wsl -s YOUR_DISTRO
+```
