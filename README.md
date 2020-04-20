@@ -51,3 +51,11 @@ Since we need to unregister to import it with the same name, the standard distro
 ```sh
 wsl -s YOUR_DISTRO
 ```
+
+## Changelog
+
+### 1.1 - 2020-04-14
+Feat: Add interactive mode for bash script.
+
+### 1.0 - 2020-04-13
+Feat: Add validation for successfull export and import for bash and batch script.
