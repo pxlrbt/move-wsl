@@ -4,9 +4,6 @@ Bash and batch script to move WSL 2 distros VHDX file to a different location.
 
 ![Interactive Example](screencast.gif)
 
-## Disclaimer
-__Use at your own risk!__ I tested this on my machine and it worked fine. But be sure to have a backup of your machine.
-
 ## Usage
 
 ### Bash script
