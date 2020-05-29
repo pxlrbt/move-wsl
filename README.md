@@ -51,6 +51,9 @@ wsl -s YOUR_DISTRO
 
 ## Changelog
 
+### 1.1.1 - 2020-05-29
+Fix: (Default) appendix was breaking distro selection in interactive mode.
+
 ### 1.1 - 2020-04-14
 Feat: Add interactive mode for bash script.
 
