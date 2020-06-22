@@ -51,6 +51,9 @@ wsl -s YOUR_DISTRO
 
 ## Changelog
 
+### 1.1.2 - 2020-06-22
+Change: Use `-q` query for more parseble output of distros.
+
 ### 1.1.1 - 2020-05-29
 Fix: (Default) appendix was breaking distro selection in interactive mode.
 
