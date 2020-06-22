@@ -1,6 +1,6 @@
 Set-StrictMode -Version latest;
 
-# function to get al distros
+# function to get distros
 function Get-Distros()
 {
     # wsl seems to output Unicode always. When parsing results in PowerShell it will try to convert
@@ -15,7 +15,7 @@ function Get-Distros()
     return $result;
 }
 
-# get all distros (skipping the first line "Windows Subsystem for Linux Distributions:")
+# get and make sure there are distros
 Write-Host 'Getting distros...';
 $distroList = Get-Distros;
 if ($distroList.Length -le 0)
@@ -24,7 +24,7 @@ if ($distroList.Length -le 0)
     Exit 1;
 }
 
-# get distro to move
+# prompt and get the distro to move
 Write-Host "Select distro to move:";
 $id = 0;
 $distroList | ForEach-Object { Write-Host "$($id+1): $($distroList[$id])" -ForegroundColor Yellow; $id++; }
@@ -41,7 +41,7 @@ Write-Host 'Enter WSL target directory:';
 $targetFolder = Read-Host;
 
 # confirm
-$confirm = Read-Host "Move $($distro) to $($targetFolder)? (Y|n)";
+$confirm = Read-Host "Move $($distro) to `"$($targetFolder)`"? (Y|n)";
 if ($confirm -ne 'Y')
 {
     Write-Error 'User canceled';
@@ -49,7 +49,7 @@ if ($confirm -ne 'Y')
 }
 
 # Create target dir if non existent
-if (-Not(Test-Path $targetFolder))
+if (-not(Test-Path $targetFolder))
 {
     New-Item -Path $targetFolder -ItemType 'directory' | Out-Null;
     if (-not($?))
