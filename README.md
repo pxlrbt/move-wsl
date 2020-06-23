@@ -59,6 +59,9 @@ wsl -s YOUR_DISTRO
 
 ## Changelog
 
+### 1.2.0 - 2020-06-23
+Feat: Added PowerShell version by [sidecus](https://github.com/sidecus).
+
 ### 1.1.2 - 2020-06-22
 Change: Use `-q` query for more parseble output of distros.
 
