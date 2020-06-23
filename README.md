@@ -1,18 +1,18 @@
 # Move WSL
 
-Bash and batch script to move WSL 2 distros VHDX file to a different location.
+Bash, batch and PowerShell script to move WSL 2 distros VHDX file to a different location.
 
 ![Interactive Example](screencast.gif)
 
 ## Usage
 
-### Bash script
-_This is the recommended version_. Use with git bash for Windows or similiar.
+### Bash
+Use with git bash for Windows or similiar.
 
 #### Interactive way
 1) `./move-wsl`
 2) Select your distro
-3) Enter your target
+3) Enter your target (i.e. `/d/wsl target/ubuntu`)
 
 #### Explicit way
 1) Get a list of WSL distros: `wsl -l`
@@ -20,7 +20,15 @@ _This is the recommended version_. Use with git bash for Windows or similiar.
 
 __Example:__ `./move-wsl docker-desktop /d/docker`
 
-### Batch script
+
+### PowerShell
+Interactive way of moving wsl for Windows PowerShell.
+
+1) `./move-wsl.ps1`
+2) Select your distro
+3) Enter your target (i.e. `D:\wsl target\ubuntu`)
+
+### Batch
 _This is a lightweight version_ which can also be used from Windows CMD.
 
 1) Get a list of WSL distros: `wsl -l`
