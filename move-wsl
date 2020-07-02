@@ -41,10 +41,10 @@ fi
 
 # Export WSL image to tar file
 echo "Exporting VHDX to \"$TEMP_FILE\" ..."
-wsl --export $WSL_NAME $TEMP_FILE.part && mv "$TEMP_FILE.part" "$TEMP_FILE"
+wsl --export $WSL_NAME $TEMP_FILE
 
-if [ ! -f $TEMP_FILE ]; then
-    echo "ERROR: Export failed. $TEMP_FILE does not exist."
+if [ $? -ne 0 ] || [ ! -f $TEMP_FILE ]; then
+    echo "ERROR: Export failed"
     exit 2
 fi
 
