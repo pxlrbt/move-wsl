@@ -73,6 +73,7 @@ Write-Host "Exporting VHDX to `"$($tempFile)`" ...";
 if (-not($? -and (Test-Path $tempFile -PathType Leaf)))
 {
     Write-Error "ERROR: Export failed";
+    Cleanup;
     Exit 2;
 }
 

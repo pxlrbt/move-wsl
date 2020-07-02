@@ -51,6 +51,7 @@ wsl --export $WSL_NAME $TEMP_FILE
 
 if [ $? -ne 0 ] || [ ! -f $TEMP_FILE ]; then
     echo "ERROR: Export failed"
+    cleanup
     exit 2
 fi
 
