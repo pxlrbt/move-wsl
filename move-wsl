@@ -1,5 +1,11 @@
 #!/bin/bash
 
+cleanup() {
+    # Remove temporary file
+    echo "Cleaning up ..."
+    rm -f "$TEMP_FILE"
+}
+
 # Allow old and new way
 if [ $# -eq 2 ]; then
     WSL_NAME=$1
@@ -67,8 +73,6 @@ if [ ! -f "$WSL_TARGET/ext4.vhdx" ]; then
     exit 4
 fi
 
-# Remove temporary file
-echo "Cleaning up ..."
-rm $TEMP_FILE
+cleanup
 
 echo "Done!"

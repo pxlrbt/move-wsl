@@ -1,5 +1,12 @@
 Set-StrictMode -Version latest;
 
+function Cleanup()
+{
+    # Remove temporary file
+    Write-Host "Cleaning up ...";
+    Remove-Item -ErrorAction Ignore $tempFile;
+}
+
 # function to get distros
 function Get-Distros()
 {
@@ -90,8 +97,6 @@ if (-not(Test-Path "$($targetFolder)\ext4.vhdx"))
     Exit 4;
 }
 
-# Remove temporary file
-Write-Host "Cleaning up ...";
-Remove-Item $tempFile;
+Cleanup;
 
 Write-Host "Done!" -ForegroundColor Green;
