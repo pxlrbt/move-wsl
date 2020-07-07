@@ -18,11 +18,14 @@ IF NOT EXIST "%WSL_TARGET%" (
 ECHO Exporting VHDX to "%TEMP_FILE%" ...
 wsl --export %WSL_NAME% %TEMP_FILE%
 
-IF NOT EXIST "%TEMP_FILE%" (
-    ECHO "ERROR: Export failed. %TEMP_FILE% does not exist."
-    EXIT
+IF %ERRORLEVEL% EQU 0 IF EXIST "%TEMP_FILE%" (
+    GOTO :UNREGISTER
 )
+ECHO ERROR: Export failed
+CALL :CLEANUP
+EXIT
 
+:UNREGISTER
 ECHO Unregistering WSL ...
 wsl --unregister %WSL_NAME% >nul 2>&1
 
@@ -34,11 +37,15 @@ IF NOT EXIST "%WSL_TARGET%/ext4.vhdx" (
     EXIT
 )
 
-ECHO Cleaning up ...
-DEL "%TEMP_FILE%"
+CALL :CLEANUP
 
 ECHO Done!
 
 :END
 PAUSE
 EXIT
+
+:CLEANUP
+ECHO Cleaning up ...
+IF EXIST "%TEMP_FILE%" DEL "%TEMP_FILE%"
+GOTO :EOF

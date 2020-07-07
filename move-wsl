@@ -1,5 +1,11 @@
 #!/bin/bash
 
+cleanup() {
+    # Remove temporary file
+    echo "Cleaning up ..."
+    rm -f "$TEMP_FILE"
+}
+
 # Allow old and new way
 if [ $# -eq 2 ]; then
     WSL_NAME=$1
@@ -43,8 +49,9 @@ fi
 echo "Exporting VHDX to \"$TEMP_FILE\" ..."
 wsl --export $WSL_NAME $TEMP_FILE
 
-if [ ! -f $TEMP_FILE ]; then
-    echo "ERROR: Export failed. $TEMP_FILE does not exist."
+if [ $? -ne 0 ] || [ ! -f $TEMP_FILE ]; then
+    echo "ERROR: Export failed"
+    cleanup
     exit 2
 fi
 
@@ -67,8 +74,6 @@ if [ ! -f "$WSL_TARGET/ext4.vhdx" ]; then
     exit 4
 fi
 
-# Remove temporary file
-echo "Cleaning up ..."
-rm $TEMP_FILE
+cleanup
 
 echo "Done!"
