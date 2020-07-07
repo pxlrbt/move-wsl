@@ -59,6 +59,10 @@ wsl -s YOUR_DISTRO
 
 ## Changelog
 
+### 1.2.1 - 2020-07-07
+Feat: Better error handling of export by [Schop0](https://github.com/Schop0). \
+Fix: Replace newlines in wsl command output as it broke selection sometimes.
+
 ### 1.2.0 - 2020-06-23
 Feat: Added PowerShell version by [sidecus](https://github.com/sidecus).
 
