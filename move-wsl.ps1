@@ -92,9 +92,10 @@ if ($newDistroList -notcontains $distro)
     Write-Error "Import failed. Distro not found. Export file at $tempFile";
     Exit 3;
 }
-if (-not(Test-Path "$($targetFolder)\ext4.vhdx"))
+
+if (-not(Test-Path "$($targetFolder)\ext4.vhdx") -And -not(Test-Path "$($targetFolder)\rootfs"))
 {
-    Write-Error "ERROR: Import failed. Target file not found. Export file at $tempFile";
+    Write-Error "ERROR: Import failed. Target file/folder not found. Export file at $tempFile";
     Exit 4;
 }
 
