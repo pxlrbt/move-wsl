@@ -59,6 +59,9 @@ wsl -s YOUR_DISTRO
 
 ## Changelog
 
+### 1.3.0 - 2020-07-16
+Feat: WSL1 support.
+
 ### 1.2.2 - 2020-07-16
 Fix: Error in PowerShell script when only one distro is installed Better error handling of export by [manie204](https://github.com/manie204).
 
