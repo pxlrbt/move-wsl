@@ -10,7 +10,7 @@ assignees: ''
 **Describe the bug**
 A clear and concise description of what the bug is.
 
-**Version (please complete the following information):**
- - [  ] Bash
- - [  ] Powershell
- - [  ] Batch
+**Script version:**
+ - [ ] Bash
+ - [ ] Powershell
+ - [ ] Batch
