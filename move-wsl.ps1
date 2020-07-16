@@ -24,7 +24,7 @@ function Get-Distros()
 
 # get and make sure there are distros
 Write-Host 'Getting distros...';
-$distroList = Get-Distros;
+$distroList = @(Get-Distros);
 if ($distroList.Length -le 0)
 {
     Write-Error 'No distro found';
@@ -86,7 +86,7 @@ Write-Host "Importing $distro from $targetFolder..."
 & cmd /c wsl --import $distro $targetFolder "`"$tempFile`"";
 
 # Validating
-$newDistroList = Get-Distros;
+$newDistroList = @(Get-Distros);
 if ($newDistroList -notcontains $distro)
 {
     Write-Error "Import failed. Distro not found. Export file at $tempFile";
