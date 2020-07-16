@@ -32,9 +32,12 @@ wsl --unregister %WSL_NAME% >nul 2>&1
 ECHO Importing "%WSL_NAME%" at %WSL_TARGET% ...
 wsl --import %WSL_NAME% %WSL_TARGET% %TEMP_FILE%
 
-IF NOT EXIST "%WSL_TARGET%/ext4.vhdx" (
-    ECHO "ERROR: Import failed. Target file not found. Export file at %TEMP_FILE%"
-    EXIT
+
+IF NOT EXIST "%WSL_TARGET%/ext4.vhdx"  (
+    IF NOT EXIST "%WSL_TARGET%/rootfs"  (
+        ECHO "ERROR: Import failed. Target file not found. Export file at %TEMP_FILE%"
+        EXIT
+    )
 )
 
 CALL :CLEANUP
