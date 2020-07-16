@@ -49,7 +49,7 @@ default=YOUR_USERNAME
 
 Then exit your distro, terminate it (`wsl -t YOUR_DISTRO`) and start it again.
 
-### Standard distro switched when moving it distro
+### Standard distro switched when moving it
 
 Since we need to unregister to import it with the same name, the standard distro can be switched. Just set your standard distro again:
 
