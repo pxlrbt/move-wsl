@@ -29,8 +29,12 @@ Interactive way of moving wsl for Windows PowerShell.
 3) Enter your target (i.e. `D:\wsl target\ubuntu`)
 
 ### Batch
+_This is a lightweight version_ which can also be used from Windows CMD.
 
-__Currently there is an issue that doesn't validate the export properly. PLEASE DON'T USE__
+1) Get a list of WSL distros: `wsl -l`
+2) Move your image: `move-wsl.bat [NAME] [LOCATION]`
+
+__Example:__ `move-wsl.bat docker-desktop "D:\wsl files\docker"`
 
 ## FAQ
 
@@ -54,6 +58,9 @@ wsl -s YOUR_DISTRO
 ```
 
 ## Changelog
+
+### 1.3.1 - 2020-08-09
+Fix: Bug in Batch script not validating export properly when using a path with spaces.
 
 ### 1.3.0 - 2020-07-16
 Feat: WSL1 support.
