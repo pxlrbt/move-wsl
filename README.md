@@ -36,6 +36,10 @@ _This is a lightweight version_ which can also be used from Windows CMD.
 
 __Example:__ `move-wsl.bat docker-desktop "D:\wsl files\docker"`
 
+## Moving Docker WSL
+
+Before moving Docker WSL make sure to stop the Docker service. Otherwise Docker will crash and you may need to reset it to factory defaults.
+
 ## FAQ
 
 ### Default user was switched to root when moving a distro
