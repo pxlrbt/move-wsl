@@ -1,6 +1,6 @@
 # Move WSL
 
-Bash, batch and PowerShell script to move WSL 2 distros VHDX file to a different location.
+Bash, batch and PowerShell script to move WSL 1 and WSL 2 distros VHDX file to a different location.
 
 ![Interactive Example](screencast.gif)
 
