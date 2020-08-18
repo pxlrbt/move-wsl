@@ -61,6 +61,11 @@ Since we need to unregister to import it with the same name, the standard distro
 wsl -s YOUR_DISTRO
 ```
 
+### WSL version was switched when moving distro
+
+On import the distro will be registered with the current default WSL version. You can set your default WSL version with `wsl --set-default-version <Version>`.
+When the WSL version was accidentally changed while moving, you can set the version with `wsl --set-version <Distro> <Version>`.
+
 ## Changelog
 
 ### 1.3.1 - 2020-08-09
