@@ -44,14 +44,14 @@ Before moving Docker WSL make sure to stop the Docker service. Otherwise Docker 
 
 ### Default user was switched to root when moving a distro
 
-Set your default user inside your distro by adding this to your `/etc/wsl.conf`
+Set your default user inside your distro by adding the following configuration to your `/etc/wsl.conf`.
 
 ```ini
 [user]
 default=YOUR_USERNAME
 ```
 
-Then exit your distro, terminate it (`wsl -t YOUR_DISTRO`) and start it again.
+If the file doesn't exist create it manually. Then exit your distro, terminate it (`wsl -t YOUR_DISTRO`) and start it again. For further options see [Microsoft Docs](https://docs.microsoft.com/en-us/windows/wsl/wsl-config#user).
 
 ### Standard distro switched when moving it
 
