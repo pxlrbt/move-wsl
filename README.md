@@ -1,6 +1,6 @@
 # Move WSL
 
-Bash, batch and PowerShell script to move WSL 2 distros VHDX file to a different location.
+Bash, batch and PowerShell script to move WSL 1 and WSL 2 distros VHDX file to a different location.
 
 ![Interactive Example](screencast.gif)
 
@@ -36,18 +36,22 @@ _This is a lightweight version_ which can also be used from Windows CMD.
 
 __Example:__ `move-wsl.bat docker-desktop "D:\wsl files\docker"`
 
+## Moving Docker WSL
+
+Before moving Docker WSL make sure to stop the Docker service. Otherwise Docker will crash and you may need to reset it to factory defaults.
+
 ## FAQ
 
 ### Default user was switched to root when moving a distro
 
-Set your default user inside your distro by adding this to your `/etc/wsl.conf`
+Set your default user inside your distro by adding the following configuration to your `/etc/wsl.conf`.
 
 ```ini
 [user]
 default=YOUR_USERNAME
 ```
 
-Then exit your distro, terminate it (`wsl -t YOUR_DISTRO`) and start it again.
+If the file doesn't exist create it manually. Then exit your distro, terminate it (`wsl -t YOUR_DISTRO`) and start it again. For further options see [Microsoft Docs](https://docs.microsoft.com/en-us/windows/wsl/wsl-config#user).
 
 ### Standard distro switched when moving it
 
@@ -56,3 +60,8 @@ Since we need to unregister to import it with the same name, the standard distro
 ```sh
 wsl -s YOUR_DISTRO
 ```
+
+### WSL version was switched when moving distro
+
+On import the distro will be registered with the current default WSL version. You can set your default WSL version with `wsl --set-default-version <Version>`.
+When the WSL version was accidentally changed while moving, you can set the version with `wsl --set-version <Distro> <Version>`.
