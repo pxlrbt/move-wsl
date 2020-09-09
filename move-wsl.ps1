@@ -46,6 +46,7 @@ $distro = $distroList[$selected - 1];
 # get target directory
 Write-Host 'Enter WSL target directory:';
 $targetFolder = Read-Host;
+$targetFolder = $targetFolder.trimend('\');
 
 # confirm
 $confirm = Read-Host "Move $($distro) to `"$($targetFolder)`"? (Y|n)";
@@ -84,6 +85,7 @@ Write-Host "Unregistering WSL ..."
 # Importing WSL at new location
 Write-Host "Importing $distro from $targetFolder..."
 & cmd /c wsl --import $distro $targetFolder "`"$tempFile`"";
+# Write-Host 'cmd /c wsl --import $distro "`"$targetFolder`"" "`"$tempFile`"";'
 
 # Validating
 $newDistroList = @(Get-Distros);
