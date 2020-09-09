@@ -59,6 +59,9 @@ wsl -s YOUR_DISTRO
 
 ## Changelog
 
+### 1.3.2 - 2020-09-09
+Fix: Bug in PS script: Import failed when target folder was entered with trailing slash.
+
 ### 1.3.1 - 2020-08-09
 Fix: Bug in Batch script not validating export properly when using a path with spaces.
 
