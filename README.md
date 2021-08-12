@@ -53,6 +53,8 @@ default=YOUR_USERNAME
 
 If the file doesn't exist create it manually. Then exit your distro, terminate it (`wsl -t YOUR_DISTRO`) and start it again. For further options see [Microsoft Docs](https://docs.microsoft.com/en-us/windows/wsl/wsl-config#user).
 
+Some distributions also allow settings the default user via command line with `YOUR_DISTRO config --default-user YOUR_USER` (e.g. `ubuntu config --default-user johndoe`). Make sure to shutdown your distro before (`wsl -t YOUR_DISTRO`).
+
 ### Standard distro switched when moving it
 
 Since we need to unregister to import it with the same name, the standard distro can be switched. Just set your standard distro again:
