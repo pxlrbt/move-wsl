@@ -1,3 +1,5 @@
+*! This project is no longer maintained as the owner moved to a different OS !*
+
 # Move WSL
 
 Bash, batch and PowerShell script to move WSL 1 and WSL 2 distros VHDX file to a different location.
