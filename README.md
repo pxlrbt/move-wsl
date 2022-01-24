@@ -1,4 +1,4 @@
-*! This project is no longer maintained as the owner moved to a different OS !*
+*⚠️  This project is no longer maintained as the owner moved to a different OS. If you'd like to take over ownership [please contact me](info@pixelarbeit.de).*
 
 # Move WSL
 
