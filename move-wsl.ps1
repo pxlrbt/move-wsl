@@ -47,6 +47,14 @@ $distro = $distroList[$selected - 1];
 # get target directory
 Write-Host 'Enter WSL target directory:';
 $targetFolder = Read-Host;
+
+# check if the target folder is the root of a drive
+if ($targetFolder.Length -le 3 -and $targetFolder.EndsWith(':\'))
+{
+    Write-Error 'Target folder cannot be root of a drive';
+    Exit 1;
+}
+
 $targetFolder = $targetFolder.trimend('\');
 
 # confirm
