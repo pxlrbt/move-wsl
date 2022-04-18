@@ -74,6 +74,10 @@ if (-not(Test-Path $targetFolder))
         Write-Error "Failed to create target folder `"$($targetFolder)`"";
         Exit 1;
     }
+} elseif (Test-Path (-join($targetFolder, "\ext4.vhdx")))
+{
+    Write-Error "Target folder already contains an ext4.vhdx file that will get overwritten. Aborting.";
+    Exit 1;
 }
 
 # Export WSL image to tar file
