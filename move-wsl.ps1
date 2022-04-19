@@ -16,7 +16,7 @@ function Get-Distros()
     # to avoid the unnecessary conversion.
     $consoleEncoding = [Console]::OutputEncoding;
     [Console]::OutputEncoding = [System.Text.Encoding]::Unicode;
-    $result = wsl -l -q;
+    $result = wsl -l -v | ConvertFrom-String -PropertyNames SELECTED, NAME, STATE, VERSION | Select-Object -Skip 1;
     [Console]::OutputEncoding = $consoleEncoding;
 
     return $result;
@@ -24,7 +24,8 @@ function Get-Distros()
 
 # get and make sure there are distros
 Write-Host 'Getting distros...';
-$distroList = @(Get-Distros);
+$distros = @(Get-Distros);
+$distroList = $distros | ForEach-Object { $_.NAME };
 if ($distroList.Length -le 0)
 {
     Write-Error 'No distro found';
@@ -84,11 +85,11 @@ Write-Host "Unregistering WSL ..."
 
 # Importing WSL at new location
 Write-Host "Importing $distro from $targetFolder..."
-& cmd /c wsl --import $distro $targetFolder "`"$tempFile`"";
-# Write-Host 'cmd /c wsl --import $distro "`"$targetFolder`"" "`"$tempFile`"";'
+& cmd /c wsl --import $distro $targetFolder "`"$tempFile`"" --version $distros[$selected -1].VERSION;
 
 # Validating
-$newDistroList = @(Get-Distros);
+$newDistros = @(Get-Distros);
+$newDistroList = $newDistros | ForEach-Object { $_.NAME };
 if ($newDistroList -notcontains $distro)
 {
     Write-Error "Import failed. Distro not found. Export file at $tempFile";
