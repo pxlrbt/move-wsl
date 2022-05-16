@@ -25,7 +25,7 @@ function Get-Distros()
 # get and make sure there are distros
 Write-Host 'Getting distros...';
 $distros = @(Get-Distros);
-$distroList = $distros | ForEach-Object { $_.NAME };
+$distroList = @($distros | ForEach-Object { $_.NAME });
 if ($distroList.Length -le 0)
 {
     Write-Error 'No distro found';
@@ -101,7 +101,7 @@ Write-Host "Importing $distro from $targetFolder..."
 
 # Validating
 $newDistros = @(Get-Distros);
-$newDistroList = $newDistros | ForEach-Object { $_.NAME };
+$newDistroList = @($newDistros | ForEach-Object { $_.NAME });
 if ($newDistroList -notcontains $distro)
 {
     Write-Error "Import failed. Distro not found. Export file at $tempFile";
