@@ -6,6 +6,11 @@ PowerShell script to move WSL 1 and WSL 2 distros VHDX file to a different locat
 
 ## Usage
 
+> **Warning**
+> 
+> This script uses official `wsl` commands and was used by a lot of people. Nevertheless some people had weird issues that resulted in broken WSL disks.
+> Make sure you have a backup of your data, so you can restore in case of an error.
+
 Interactive way of moving wsl for Windows PowerShell.
 
 1) `./move-wsl.ps1`
