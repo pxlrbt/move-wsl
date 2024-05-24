@@ -1,3 +1,6 @@
+> [!Warning]
+> As I switched the OS, I am not maintaining/updating this script anymore and there are some known issues (see the issue tab).
+
 # Move WSL
 
 PowerShell script to move WSL 1 and WSL 2 distros VHDX file to a different location.
