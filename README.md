@@ -1,5 +1,7 @@
 > [!Warning]
-> As I switched the OS, I am not updating this script or fixing bugs anymore. Have a look at the issue tab for some known issues. Happy to merge PRs with fixes.
+> As I switched the OS, I am not updating this script or fixing bugs anymore.  
+> Have a look at the issue tab for some known issues.  
+> Happy to merge PRs with fixes.
 
 # Move WSL
 
