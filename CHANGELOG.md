@@ -1,5 +1,24 @@
 # Changelog
 
+## 1.4.0 - 2024-12-26
+**Major update with multiple bug fixes and improvements:**
+
+### Bug Fixes
+- **#37**: Fixed script failing when only one distro is installed (improved parsing)
+- **#30/#35**: Added automatic `wsl --shutdown` before export to prevent "file in use" errors
+- **#29**: Default distro setting is now preserved after move
+
+### Enhancements
+- **#23**: Pre-check for NTFS compression on target folder (prevents corruption)
+- Added CLI parameters for non-interactive mode: `-Distro`, `-Target`, `-Force`, `-NoShutdown`
+- Improved visual feedback with colors and progress messages
+- Shows distro info (WSL version, state, default status) during selection
+- Displays export file size after completion
+
+### Technical
+- Replaced `ConvertFrom-String` with robust manual parsing
+- Better error messages with recovery suggestions
+
 ## 1.3.2 - 2020-09-09
 Fix: Bug in PS script: Import failed when target folder was entered with trailing slash.
 
