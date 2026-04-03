@@ -19,20 +19,19 @@ function Cleanup() {
     Remove-Item -ErrorAction Ignore $tempFile;
 }
 
-# Function to get distros with improved parsing (Fix #37 - single distro issue)
+# Fixed poorly vibe-coded, untested Get-Distros function - now works
 function Get-Distros() {
-    $consoleEncoding = [Console]::OutputEncoding;
-    [Console]::OutputEncoding = [System.Text.Encoding]::Unicode;
+    # Force WSL to output in UTF-8 to prevent UTF-16LE pipeline corruption
+    $env:WSL_UTF8 = 1
     
     $wslOutput = wsl -l -v 2>&1
-    [Console]::OutputEncoding = $consoleEncoding;
     
     if ($LASTEXITCODE -ne 0) {
         return @()
     }
     
-    # Parse output line by line (more robust than ConvertFrom-String)
-    $lines = $wslOutput -split "`r?`n" | Where-Object { $_.Trim() -ne "" } | Select-Object -Skip 1
+    # Strip any lingering null bytes and split into lines
+    $lines = ($wslOutput -replace "`0", "") -split "`r?`n" | Where-Object { $_.Trim() -ne "" } | Select-Object -Skip 1
     
     $result = @()
     foreach ($line in $lines) {
@@ -45,8 +44,8 @@ function Get-Distros() {
             $cleanLine = $cleanLine.Substring(1).TrimStart()
         }
         
-        # Split by whitespace
-        $parts = $cleanLine -split '\s+' | Where-Object { $_ -ne "" }
+        # Wrap the pipeline in @() to guarantee an array, satisfying Strict Mode's .Count requirement
+        $parts = @($cleanLine -split '\s+' | Where-Object { $_ -ne "" })
         
         if ($parts.Count -ge 3) {
             $result += [PSCustomObject]@{
@@ -87,8 +86,8 @@ function Test-FolderCompressed {
 # MAIN SCRIPT
 # ============================================================================
 
-Write-Host "`n=== Move-WSL v1.4.0 ===" -ForegroundColor Cyan
-Write-Host "Move your WSL distros to a new location`n" -ForegroundColor Gray
+Write-Host "=== Move-WSL v1.4.0 ===" -ForegroundColor Cyan
+Write-Host "Move your WSL distros to a new location" -ForegroundColor Gray
 
 # Get and make sure there are distros
 Write-Host 'Getting distros...' -ForegroundColor Gray;
@@ -111,7 +110,7 @@ if ([string]::IsNullOrEmpty($Distro)) {
         $id++
     }
     
-    $selected = [int](Read-Host "`nEnter number");
+    $selected = [int](Read-Host "Enter number");
     if (($selected -gt $distroList.Length) -or ($selected -le 0)) {
         Write-Error "Invalid selection. Select a distro from 1 to $($distroList.Length)";
         Exit 1;
@@ -131,12 +130,12 @@ else {
 # Check if this distro is the default (Fix #29)
 $isDefault = $distros[$selectedIndex].SELECTED -eq '*'
 if ($isDefault) {
-    Write-Host "`nNote: '$distro' is your default WSL distro. This will be preserved." -ForegroundColor Cyan
+    Write-Host "Note: '$distro' is your default WSL distro. This will be preserved." -ForegroundColor Cyan
 }
 
 # Get target directory
 if ([string]::IsNullOrEmpty($Target)) {
-    Write-Host "`nEnter target directory:" -ForegroundColor Yellow;
+    Write-Host "Enter target directory:" -ForegroundColor Yellow;
     $targetFolder = Read-Host;
 }
 else {
@@ -167,7 +166,7 @@ if (Test-FolderCompressed $targetFolder) {
 
 # Confirm
 if (-not $Force) {
-    $confirm = Read-Host "`nMove '$distro' to `"$targetFolder`"? (Y/n)";
+    $confirm = Read-Host "Move '$distro' to "$targetFolder"? (Y/n)";
     if ($confirm -ne 'Y' -and $confirm -ne 'y' -and $confirm -ne '') {
         Write-Host 'Operation cancelled by user.' -ForegroundColor Yellow;
         Exit 0;
@@ -179,7 +178,7 @@ if (-not(Test-Path $targetFolder)) {
     Write-Host "Creating target folder..." -ForegroundColor Gray
     New-Item -Path $targetFolder -ItemType 'directory' | Out-Null;
     if (-not($?)) {
-        Write-Error "Failed to create target folder `"$targetFolder`"";
+        Write-Error "Failed to create target folder "$targetFolder"";
         Exit 1;
     }
 }
@@ -190,7 +189,7 @@ elseif (Test-Path ( -join ($targetFolder, "\ext4.vhdx"))) {
 
 # Shutdown WSL to release file locks (Fix #30 and #35)
 if (-not $NoShutdown) {
-    Write-Host "`nShutting down WSL to release file locks..." -ForegroundColor Yellow
+    Write-Host "nShutting down WSL to release file locks..." -ForegroundColor Yellow
     wsl --shutdown 2>&1 | Out-Null
     Start-Sleep -Seconds 2
     Write-Host "  WSL shutdown complete." -ForegroundColor Green
@@ -198,10 +197,10 @@ if (-not $NoShutdown) {
 
 # Export WSL image to tar file
 $tempFile = Join-Path $targetFolder "$($distro).tar";
-Write-Host "`nExporting '$distro' to `"$tempFile`"..." -ForegroundColor Yellow;
+Write-Host "Exporting '$distro' to "$tempFile"..." -ForegroundColor Yellow;
 Write-Host "  This may take several minutes depending on distro size..." -ForegroundColor Gray
 
-& cmd /c wsl --export $distro "`"$tempFile`"";
+& cmd /c wsl --export $distro ""$tempFile"";
 if (-not($? -and (Test-Path $tempFile -PathType Leaf))) {
     Write-Error "Export failed. Check if the distro is healthy with 'wsl -l -v'";
     Cleanup;
@@ -212,15 +211,15 @@ $tarSize = [math]::Round((Get-Item $tempFile).Length / 1MB, 2)
 Write-Host "  Export complete! ($tarSize MB)" -ForegroundColor Green
 
 # Unregister WSL so we can register it again at new location
-Write-Host "`nUnregistering old location..." -ForegroundColor Yellow
+Write-Host "Unregistering old location..." -ForegroundColor Yellow
 & cmd /c wsl --unregister $distro | Out-Null
 
 # Importing WSL at new location
 Write-Host "Importing '$distro' to new location..." -ForegroundColor Yellow
-& cmd /c wsl --import $distro $targetFolder "`"$tempFile`"" --version $distros[$selectedIndex].VERSION;
+& cmd /c wsl --import $distro $targetFolder ""$tempFile"" --version $distros[$selectedIndex].VERSION;
 
 # Validating
-Write-Host "`nValidating import..." -ForegroundColor Gray
+Write-Host "Validating import..." -ForegroundColor Gray
 $newDistros = @(Get-Distros);
 $newDistroList = @($newDistros | ForEach-Object { $_.NAME });
 
@@ -242,12 +241,12 @@ if ($isDefault) {
 
 Cleanup;
 
-Write-Host "`n✓ Done! '$distro' has been moved to '$targetFolder'" -ForegroundColor Green;
+Write-Host "Done! '$distro' has been moved to '$targetFolder'" -ForegroundColor Green;
 
 if ($isDefault) {
-    Write-Host "✓ Default distro setting preserved." -ForegroundColor Green
+    Write-Host "Default distro setting preserved." -ForegroundColor Green
 }
 
-Write-Host "`nTip: If your default user changed to root, add this to /etc/wsl.conf:" -ForegroundColor Gray
+Write-Host "Tip: If your default user changed to root, add this to /etc/wsl.conf:" -ForegroundColor Gray
 Write-Host "  [user]" -ForegroundColor Gray
-Write-Host "  default=YOUR_USERNAME`n" -ForegroundColor Gray
+Write-Host "  default=YOUR_USERNAMEn" -ForegroundColor Gray
