@@ -19,9 +19,8 @@ function Cleanup() {
     Remove-Item -ErrorAction Ignore $tempFile;
 }
 
-# Fixed poorly vibe-coded, untested Get-Distros function - now works
+# Fixed Get-Distros function - now works
 function Get-Distros() {
-    # Force WSL to output in UTF-8 to prevent UTF-16LE pipeline corruption
     $env:WSL_UTF8 = 1
     
     $wslOutput = wsl -l -v 2>&1
@@ -30,12 +29,10 @@ function Get-Distros() {
         return @()
     }
     
-    # Strip any lingering null bytes and split into lines
     $lines = ($wslOutput -replace "`0", "") -split "`r?`n" | Where-Object { $_.Trim() -ne "" } | Select-Object -Skip 1
     
     $result = @()
     foreach ($line in $lines) {
-        # Remove BOM and clean the line
         $cleanLine = $line -replace '^\s*', ''
         if ([string]::IsNullOrWhiteSpace($cleanLine)) { continue }
         
@@ -44,7 +41,6 @@ function Get-Distros() {
             $cleanLine = $cleanLine.Substring(1).TrimStart()
         }
         
-        # Wrap the pipeline in @() to guarantee an array, satisfying Strict Mode's .Count requirement
         $parts = @($cleanLine -split '\s+' | Where-Object { $_ -ne "" })
         
         if ($parts.Count -ge 3) {
