@@ -185,7 +185,7 @@ elseif (Test-Path ( -join ($targetFolder, "\ext4.vhdx"))) {
 
 # Shutdown WSL to release file locks (Fix #30 and #35)
 if (-not $NoShutdown) {
-    Write-Host "nShutting down WSL to release file locks..." -ForegroundColor Yellow
+    Write-Host "Shutting down WSL to release file locks..." -ForegroundColor Yellow
     wsl --shutdown 2>&1 | Out-Null
     Start-Sleep -Seconds 2
     Write-Host "  WSL shutdown complete." -ForegroundColor Green
@@ -245,4 +245,4 @@ if ($isDefault) {
 
 Write-Host "Tip: If your default user changed to root, add this to /etc/wsl.conf:" -ForegroundColor Gray
 Write-Host "  [user]" -ForegroundColor Gray
-Write-Host "  default=YOUR_USERNAMEn" -ForegroundColor Gray
+Write-Host "  default=YOUR_USERNAME" -ForegroundColor Gray
